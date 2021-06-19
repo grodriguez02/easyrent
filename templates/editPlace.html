@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}Edit Place{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Edit Place</h1>
+        <p>Please change te values you want to change of you place <b>{{place.name}}</b>.</p>
+    <form class='form' method="post" action="/editPlace/{{place.id}}/"  enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="formContainer">
+            <div class="labelInput">
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name" value="{{place.name}}">
+            </div>
+            <div class="labelInput">            
+                <label for="country">Country: </label>
+                <input type="text" id="country" name="country" value="{{place.country}}">
+            </div>
+            <div class="labelInput">
+                <label for="province">Province: </label>
+                <input type="text" id="province" name="province" value="{{place.province}}">
+            </div>
+            <div class="labelInput">
+                <label for="cp">CP: </label>
+                <input type="text" id="cp" name="cp" minlength="5" maxlength="5" value="{{place.cp}}">
+            </div>
+            <div class="labelInput">
+                <label for="address">Address: </label>
+                <input type="text" id="address" name="address" value="{{place.address}}">
+            </div>
+            <div class="labelInput">
+                <label for="capacity">Capacity: </label>
+                <input type="number" id="capacity" name="capacity" value="{{place.capacity}}">
+            </div>
+            <div class="labelInput">
+                <label for="price">Price per hour (€): </label>
+                <input type="number" id="price" name="price" step="0.01" value="{{place.price}}">
+            </div>
+            <div class="labelInput">
+                <label for="image">Image: </label>
+                <input type="file" id="image" name="image" style="margin-top: 1em;">
+            </div>
+        </div><br/>
+
+        <input class='button' type="submit" value="Edit Place"/>
+    </form>
+    <br/>
+
+{% endblock %}

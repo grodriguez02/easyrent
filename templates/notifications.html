@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Notifications{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Notifications</h1>
+	{% if notifications %}
+	<ul class='listNotifications'>
+		{% for n in notifications %}
+		<li class='{% if n.read %}notificationRead{% else %}notificationUnread{% endif %}'>
+			<h3>{% if n.reserver %}{{n.reserver.first_name}} {{n.reserver.last_name}}{% else %}Notification System{% endif %}</h3>
+			<p class='italic'>Date: {{n.date}}</p>
+			<p>Text: {{n.text}}</p><br/>
+			{% if not n.read %}
+				{% if n.confirmType %}
+					<a class='button' href="/aproveNotification/{{n.id}}/">Aprove</a>
+					<a class='button red' href="/denyNotification/{{n.id}}/">Deny</a>
+				{% else %}
+					<a class='button' href="/readNotification/{{n.id}}/">Mark as read</a>
+				{% endif %}
+			{% endif %}
+			
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>You havent any notifications.</p>
+	{% endif %}
+    <br/>
+
+{% endblock %}

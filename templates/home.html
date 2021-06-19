@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Home{% endblock %}
+
+
+{% block body_block %}
+{% if user.is_authenticated %}
+	<p>Welcome <b>{{user.first_name}} {{user.last_name}}</b><br/><br/></p>
+{% endif %}
+
+
+<form class='homeForm' method="post" action="{% url 'home' %}">
+    {% csrf_token %}
+    <div class="formContainer">
+        <div class="labelInput">
+        	<div class='noWrap'>
+	            <label for="location">Location: </label>
+	            <input type="text" placeholder='Where do you want to rent a place?' id="location" name="location" style='width: 7em' value='{% if session.location %}{{session.location}}{% endif %}'>
+        	</div>
+        	<div class='noWrap'>
+                <label for="initD">From </label>
+                <input type="date" id="initD" name="initD" min='{{today}}' value='{% if session.initD %}{{session.initD}}{% endif %}'>
+                <label for="initH"> at </label>
+                <input type="number" id="initH" name="initH" min='0' max='23' style="width: 2.5em" value='{% if session.initD %}{{session.initH}}{% else %}0{% endif %}'>
+        	</div>
+        	<div class='noWrap'>
+                <label for="endD">To </label>
+                <input type="date" id="endD" name="endD" min='{{today}}' value='{% if session.endD %}{{session.endD}}{% endif %}'>
+                <label for="endH"> at </label>
+                <input type="number" id="endH" name="endH" min='0' max='23' style="width: 2.5em" value='{% if session.endH %}{{session.endH}}{% else %}0{% endif %}'>
+        	</div>
+        	<div class='noWrap'>
+	            <label for="distance">Distance (km): </label>
+	            <input type="number" id="distance" name="distance" min='0' style='width: 3.7em;' step="0.1" value='{{session.maxDistance}}'>
+        	</div>
+        	<div class='noWrap'>
+				<label for="orderBy">Order by:  </label>
+				<select id="orderBy" name="orderBy" style='height: 2.4em; margin-top: 0.27em; margin-left: 5px;'>
+				    <option value="distance" selected="selected">Distance</option>
+				    <option value="rating">Rating</option>
+				    <option value="price">Price</option>
+				</select>
+        	</div>
+
+    		<input class='button dark' type="submit" value="Filter"/>
+        </div>
+    </div>
+</form>
+
+
+{% if places %}
+	<ul class='listPlaces'>
+		{% for p in places %}
+		<li>
+			<h3>{{p.name}}</h3>
+			<img class='imagePlace' src='{% static p.image %}' />
+			<p>{{p.completeAddress}}</p>
+			<p>Owner: {{p.user.first_name}} {{p.user.last_name}}</p><br/>
+			<p>Capacity: <b>{{p.capacity}} people</b></p>
+			<p>Price per hour: <b>{{p.price}} €</b></p>
+			<p>Rating: {% if p.rating %}<b class='rating'>{{p.rating}}/5</b> · {{p.numberRatings}} ratings{% else %}<b><i> this place doesn't have ratings</i></b>{% endif %}</p><br/>
+			{% if p.distance %}
+			<p>Location at <b>{{p.distance}}km</b></p><br/>	
+			{% endif %}
+			<a class='button' href="/rentPlace/{{p.id}}/">Rent</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% if numPages %}
+		<div class='prevNextContainer'>
+		<p>Page <b>{{numPage}}</b> of <b>{{numPages}}</b></p>
+		{% if places.has_previous %}
+			<a class='prevNext' href="{% url 'home' %}?page={{places.previous_page_number}}">Previous</a>
+		{% endif %}
+		{% if places.has_next %}
+			<a class='prevNext' href="{% url 'home' %}?page={{places.next_page_number}}">Next</a>
+		{% endif %}
+		</div>
+	{% endif %}
+
+{% else %}
+	<p class='italic'>There aren't any place registered with that filters.</p>
+{% endif %}
+<br/><br/>
+{% endblock %}

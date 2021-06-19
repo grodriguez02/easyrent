@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}My Profile{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">My Profile</h1>
+		<div class='profile'>
+		<h3>Username: <b>{{user.username}}</b></h3>
+		<p>First name: <b>{{user.first_name}}</b></p>
+		<p>Last name: <b>{{user.last_name}}</b></p><br/>
+		<a class='button' href="/editProfile/">Edit Profile</a>
+		<a class='button' href="/changePassword/">Change Password</a>
+    	</div>
+    <br/><br/>
+
+{% endblock %}

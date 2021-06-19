@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}Login{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Login</h1>
+    <p>Please enter your personal information to register your account.</p>
+    <form class='form' method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="formContainer">
+            <div class="labelInput">
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username">
+            </div>
+            <div class="labelInput">
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password">
+            </div>
+        </div>
+        <input class='button' type="submit" value="Login"/>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Summary{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Summary of the Rent</h1>
+	<div class='place'>
+	    <h3>{{place.name}}</h3>
+	    <img class='imagePlace' src='{% static place.image %}' />    
+	    <p>{{place.completeAddress}}</p>
+	    <p>Capacity: {{place.capacity}} people</p>
+	    <p>Price per hour: {{place.price}} €</p>
+		<p>Owner: {{place.user.first_name}} {{place.user.last_name}}</p></br>
+
+		<p>From <b>{{rent.init}}</b> to <b>{{rent.end}}</b></p>
+		<p>Number of hours: <b>{{rent.numberHours}} hours</b></p>
+		<h4>Total price: <b>{{rent.totalPrice}} €</b></h4></br>
+		<a class='button' href="/confirmRent/{{rent.id}}/">Confirm Rent</a>
+		<a class='button red' href="/confirmRent/{{rent.id}}/deny">Deny Rent</a>
+	</div>
+    <br/><br/>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}Register{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Register</h1>
+        <p>Register new user account.</p>
+    <form class='form' method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <div class="formContainer">
+            <div class="labelInput">
+                <label for="first_name">First name: (only letters)</label>
+                <input type="text" id="first_name" name="first_name">
+            </div>
+
+            <div class="labelInput">
+                <label for="last_name">Last name: (only letters)</label>
+                <input type="text" id="last_name" name="last_name">
+            </div>
+
+            <div class="labelInput">
+                <label for="username">Username: (only letters and numbers)</label>
+                <input type="text" id="username" name="username">
+            </div>
+
+            <div class="labelInput">
+                <label for="password1">Password: (only letters and numbers)</label>
+                <input type="password" id="password1" name="password1">
+            </div>
+
+            <div class="labelInput">
+                <label for="password2">Repeat your password: (only letters and numbers)</label>
+                <input type="password" id="password2" name="password2">
+            </div>
+        </div><br/>
+        <input class='button' type="submit" value="Register"/>
+    </form>
+    <br/>
+
+{% endblock %}

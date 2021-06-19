@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}Rent Place{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Rent Place</h1>
+    <p>Please choose the hours you want to rent the place <b>{{place.name}}</b>.</p>
+    <form class='form' method="post" style='margin:1em 0' action="/summary/{{place.id}}/">
+        {% csrf_token %}
+
+        <div class="formContainer">
+            <div class="labelInput">
+                <label for="firstDate">From </label>
+                <input class='dateTime' type="date" id="firstDate" name="firstDate" min='{{today}}'>
+                <label for="start"> at </label>
+                <input type="number" id="start" name="start" min='0' max='23' style="width: 2.5em" value='0'>
+            </div>
+            <div class="labelInput">
+                <label for="lastDate">To </label>
+                <input class='dateTime' type="date" id="lastDate" name="lastDate" min='{{today}}'>
+                <label for="end"> at </label>
+                <input type="number" id="end" name="end" min='0' max='23'  style="width: 2.5em" value='0'>
+            </div>
+        </div><br/>
+
+        <input class='button' type="submit" value="Rent Place"/>
+    </form>
+	<div class='place'>
+	    <h3>{{place.name}}</h3>
+        <img class='imagePlace' src='{% static place.image %}' />    
+	    <p>{{place.completeAddress}}</p>
+	    <p>Capacity: {{place.capacity}} people</p>
+	    <p>Price per hour: {{place.price}} €</p>
+		<p>Owner: {{place.user.first_name}} {{place.user.last_name}}</p>
+    </div>
+
+    <br/>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}Edit Profile{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Edit Profile</h1>
+        <p>Edit the values you want to change.</p>
+    <form class='form' method="post" action="{% url 'editProfile' %}">
+        {% csrf_token %}
+
+        <div class="formContainer">
+            <div class="labelInput">
+                <label for="first_name">First name: (only letters)</label>
+                <input type="text" id="first_name" name="first_name" value="{{user.first_name}}">
+            </div>
+            <div class="labelInput">
+                <label for="last_name">Last name: (only letters)</label>
+                <input type="text" id="last_name" name="last_name" value="{{user.last_name}}">
+            </div>
+            <div class="labelInput">
+                <label for="username">Username: (only letters and numbers)</label>
+                <input type="text" id="username" name="username" value="{{user.username}}">
+            </div>
+        </div>
+
+        <input class='button' type="submit" value="Edit Profile"/>
+    </form>
+    <br/>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}Edit Rent{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">Edit Rent</h1>
+    <p>Please choose the new hours you want to rent the place <b>{{place.name}}</b>.</p>
+    <p class='italic'>The previous rent was selected from <b>{{rent.init}}</b> to <b>{{rent.end}}</b></p>
+    <form class='form' method="post" style='margin:1em 0' action="/editRent/{{rent.id}}/">
+        {% csrf_token %}
+
+        <div class="formContainer">
+            <div class="labelInput">
+                <label for="firstDate">From </label>
+                <input class='dateTime' type="date" id="firstDate" name="firstDate" min='{{today}}'>
+                <label for="start"> at </label>
+                <input class='small' type="number" id="start" name="start" min='0' max='23'><p>h</p>
+            </div>
+            <div class="labelInput">
+                <label for="lastDate">To </label>
+                <input class='dateTime' type="date" id="lastDate" name="lastDate" min='{{today}}'>
+                <label for="end"> at </label>
+                <input class='small' type="number" id="end" name="end" min='0' max='23'><p>h</p>
+            </div>
+        </div><br/>
+
+        <input class='button' type="submit" value="Edit Rent"/>
+    </form>
+	<div class='place'>
+	    <h3>{{place.name}}</h3>
+	    <p>{{place.completeAddress}}</p>
+	    <p>Capacity: {{place.capacity}} people</p>
+	    <p>Price per hour: {{place.price}} €</p>
+		<p>Owner: {{place.user.first_name}} {{place.user.last_name}}</p>
+    </div>
+
+    <br/>
+
+{% endblock %}

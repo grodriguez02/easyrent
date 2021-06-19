@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+	<head>
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+	    <link rel="icon" href="{% static 'images/logo.svg' %}" sizes="16x16" type="image/svg">
+	    {% block css %}
+	    {% endblock %}
+		<title>
+			{% block title_block %}
+			{% endblock %}
+		</title>
+	</head>
+	
+	<body>    
+		<nav>
+			<ul class='navbar'>
+				<div class='subnavbar'>
+					<li><a  class='logo' href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt='Home'/></a></li>
+					{% if user.is_authenticated %}
+					<li><a href="{% url 'myPlaces' %}">My Places</a></li>
+					<li><a href="{% url 'myRents' %}">My Rents</a></li>
+					<li><a href="{% url 'addPlace' %}">Add Place</a></li>
+					{% endif %}
+				</div>
+				<div class='subnavbar'>
+					{% if user.is_authenticated %}
+					<li><a href="{% url 'notifications' %}"><div class='numNotifications'>{{session.numNotifications}}</div> Notifications</a></li>
+					<li><a href="{% url 'profile' %}">Profile</a></li>
+					<li><a href="{% url 'logout' %}">Logout</a></li>
+					{% else %}
+					<li><a href="{% url 'login' %}">Login</a></li>
+					<li><a href="{% url 'register' %}">Register</a></li>
+					{% endif %}
+				</div>
+			</ul>
+		</nav>
+
+		{% if messages %}
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}><b>{{ message }}</b></li>
+			    {% endfor %}
+			</ul>
+		{% endif %}
+
+		<div class='bodyblock'>
+			{% block body_block %}
+			{% endblock %}
+		</div>
+	
+		<hr />
+		
+		<footer>
+			<p>EasyRent Places by Guillermo Rodríguez Senís.</p>
+		</footer>
+	</body>
+</html>

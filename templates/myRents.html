@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}My Rents{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">My Rents</h1>
+	{% if rents %}
+	<ul class='listPlaces'>
+		{% for r in rents %}
+		<li {% if r.type is 2 %}class='notificationRead'{% endif %}>
+			<h3>{{r.place}}</h3>
+			<p class='italic'> State: 
+			{% if r.type is 0 %}
+				(Not started)
+			{% elif r.type is 1 %}
+				(Started)
+			{% else %}
+				(Finished)
+			{% endif %}
+			</p>
+			<img class='imagePlace' src='{% static r.place.image %}' />
+			<p>{{r.place.completeAddress}}</p>
+			<p>Owner: {{r.place.user.first_name}} {{r.place.user.last_name}}</p><br/>
+			<p>Capacity: <b>{{r.place.capacity}} people</b></p>
+			<p>Price per hour: <b>{{r.place.price}} €</b></p>
+			<p>Rating: {% if r.place.rating %}<b class='rating'>{{r.place.rating}}/5</b> · {{r.place.numberRatings}} ratings{% else %}<b><i> this place doesn't have ratings</i></b>{% endif %}</p><br/>
+
+
+			<p>From <b>{{r.init.date}}</b> at <b>{{r.init.time}}</b> to <b>{{r.end.date}}</b> at <b>{{r.end.time}}</b></p>
+			<p>Number of hours: <b>{{r.numberHours}} hours</b></p>
+			<h4>Total price: <b>{{r.totalPrice}} €</b></h4></br>
+			{% if r.type is 0 %}
+				<a class='button' href="/editRent/{{r.id}}/">Edit Rent</a>
+				<a class='button red' href="/cancelRent/{{r.id}}/">Cancel Rent</a>
+			{% elif r.type is 2 %}
+				{% if not r.rated %}
+					<a class='button' href="/ratePlace/{{r.id}}/">Rate Place</a>
+				{% else %}
+					<p><b><i>You have rated this place</i></b></p>
+				{% endif %}
+			{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>You havent any rent.</p>
+	{% endif %}
+    <br/>
+
+{% endblock %}

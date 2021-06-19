@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}My Places{% endblock %}
+
+
+{% block body_block %}
+
+	<h1 class="titulo">My Places</h1>
+	{% if places %}
+	<ul class='listPlaces'>
+		{% for p in places %}
+		<li>
+			<h3>{{p.name}}</h3>
+			<img class='imagePlace' src='{% static p.image %}' />	
+			<p>{{p.completeAddress}}</p>
+			<p>Capacity: {{p.capacity}} people</p>
+			<p>Price per hour: {{p.price}} €</p>
+			<p>Rating: {% if p.rating %}<b class='rating'>{{p.rating}}/5</b> · {{p.numberRatings}} ratings{% else %}<b><i> this place doesn't have ratings</i></b>{% endif %}</p><br/>
+
+			<a class='button' href="/editPlace/{{p.id}}/">Edit</a>
+			<a class='button red' href="/deletePlace/{{p.id}}/">Delete</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>You havent any place published.</p>
+	{% endif %}
+    <br/>
+
+{% endblock %}
